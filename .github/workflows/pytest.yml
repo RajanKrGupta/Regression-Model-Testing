@@ -1,0 +1,26 @@
+name: Python Tests
+
+on:
+  push:
+    branches:
+      - master  # Adjust this to your main branch name
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.10.12  # Choose the Python version you need
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt  # If you have any requirements
+
+    - name: Run tests
+      run: pytest test_functions.py
