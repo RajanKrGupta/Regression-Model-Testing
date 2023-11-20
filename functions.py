@@ -8,7 +8,7 @@ import os
 
 # Load sklearn dataframe
 def load_Empdata_df(filename):
-    dataset_dir = 'dataset'
+    dataset_dir = 'Dataset'
     # Define the path to the "empfile.csv" file within the "dataset" directory
     file_path = os.path.join(dataset_dir, filename)
     df = pd.read_csv(file_path)

@@ -13,9 +13,13 @@ def test_load_Empdata_df():
 def test_split_dataframe():
     X_train, X_test, y_train, y_test = split_dataframe()
     assert X_train is not None
+    assert y_train is not None
+    assert X_test is not None
     assert y_test is not None
     assert len(X_train) > 0
     assert len(y_train) > 0
+    assert len(X_test) > 0
+    assert len(y_test) > 0
     # Add more specific assertions as needed
 
 # Test train_linear_model function
