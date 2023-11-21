@@ -1,6 +1,6 @@
 # Regression-Model-Testing
 
-Automation test written in pytest to validate the Linear Regressiion model - Employee Salary Preediction
+CI-CD Automation test written in pytest to validate the Linear Regressiion model - Employee Salary Prediction
 The data files are present in Dataset folder
 Validation done:
 Data integrity check- Html report will be generated after successfull exexution listing down all the issues observed in the datafile
