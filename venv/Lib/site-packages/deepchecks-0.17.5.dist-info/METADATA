@@ -1,0 +1,124 @@
+Metadata-Version: 2.1
+Name: deepchecks
+Version: 0.17.5
+Summary: Package for validating your machine learning model and data
+Home-page: https://github.com/deepchecks/deepchecks
+Author: deepchecks
+Author-email: info@deepchecks.com
+License: UNKNOWN
+Download-URL: https://github.com/deepchecks/deepchecks/releases/download/0.17.5/deepchecks-0.17.5.tar.gz
+Project-URL: Documentation, https://docs.deepchecks.com
+Project-URL: Bug Reports, https://github.com/deepchecks/deepchecks
+Project-URL: Source, https://github.com/deepchecks/deepchecks
+Project-URL: Contribute!, https://github.com/deepchecks/deepchecks/blob/master/CONTRIBUTING.md
+Keywords: Software Development,Machine Learning
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+License-File: LICENSE
+Requires-Dist: pandas <2.2.0,>=1.1.5
+Requires-Dist: numpy >=1.19
+Requires-Dist: scikit-learn >=0.23.2
+Requires-Dist: jsonpickle >=2
+Requires-Dist: PyNomaly >=0.3.3
+Requires-Dist: typing-extensions >=4.0.0
+Requires-Dist: tqdm >=4.62.3
+Requires-Dist: category-encoders >=2.3.0
+Requires-Dist: scipy <=1.10.1,>=1.4.1
+Requires-Dist: plotly >=5.13.1
+Requires-Dist: matplotlib >=3.3.4
+Requires-Dist: pyzmq <24.0.0
+Requires-Dist: beautifulsoup4 >=4.11.1
+Requires-Dist: requests >=2.22.0
+Requires-Dist: statsmodels >=0.11.0 ; python_version < "3.7"
+Requires-Dist: dataclasses >=0.6 ; python_version < "3.7"
+Requires-Dist: ipython <8,>=5.5.0 ; python_version < "3.8"
+Requires-Dist: ipykernel >=4.10.1 ; python_version < "3.8"
+Requires-Dist: ipywidgets <8,>=7.5.0 ; python_version < "3.8"
+Requires-Dist: importlib-metadata >=1.4 ; python_version < "3.8"
+Requires-Dist: importlib-resources >=1.3 ; python_version < "3.9"
+Requires-Dist: statsmodels >=0.13.5 ; python_version >= "3.7"
+Requires-Dist: ipython <8,>=7.15.0 ; python_version >= "3.8"
+Requires-Dist: ipykernel >=5.3.0 ; python_version >= "3.8"
+Requires-Dist: ipywidgets <8,>=7.6.5 ; python_version >= "3.8"
+Provides-Extra: nlp
+Requires-Dist: seqeval >=1.0.0 ; extra == 'nlp'
+Requires-Dist: nltk <=3.6.7,>=3.4.0 ; extra == 'nlp'
+Requires-Dist: textblob >=0.17.1 ; extra == 'nlp'
+Requires-Dist: umap-learn ; extra == 'nlp'
+Requires-Dist: transformers >=4.0.0 ; extra == 'nlp'
+Provides-Extra: nlp-properties
+Requires-Dist: fasttext >=0.8.0 ; extra == 'nlp-properties'
+Requires-Dist: tiktoken ; (python_version >= "3.8") and extra == 'nlp'
+Provides-Extra: vision
+Requires-Dist: pytorch-ignite >=0.4.8 ; extra == 'vision'
+Requires-Dist: opencv-python >=4.5.5.62 ; extra == 'vision'
+Requires-Dist: albumentations >=1.1.0 ; extra == 'vision'
+Requires-Dist: imgaug >=0.4.0 ; extra == 'vision'
+Requires-Dist: seaborn >=0.1.0 ; extra == 'vision'
+Requires-Dist: imagehash >=4.0.0 ; extra == 'vision'
+Requires-Dist: lxml >=4.0.0 ; extra == 'vision'
+
+
+|build| |pkgVersion| |pyVersions|
+|Maintainability| |Coverage Status|
+
+..  image:: https://raw.githubusercontent.com/deepchecks/deepchecks/main/docs/source/_static/images/general/deepchecks-logo-with-white-wide-back.png
+    :target: https://github.com/deepchecks/deepchecks
+
+Deepchecks is a Python package for comprehensively validating your machine learning models and data with minimal effort.
+This includes checks related to various types of issues, such as model performance, data integrity,
+distribution mismatches, and more.
+
+What Do You Need in Order to Start Validating?
+----------------------------------------------
+
+Depending on your phase and what you wise to validate, you'll need a subset of the following:
+
+- Raw data (before pre-processing such as OHE, string processing, etc.), with optional labels
+- The model's training data with labels
+- Test data (which the model isn't exposed to) with labels
+- A model compatible with scikit-learn API that you wish to validate (e.g. RandomForest, XGBoost)
+
+Deepchecks validation accompanies you from the initial phase when you
+have only raw data, through the data splits, and to the final stage of
+having a trained model that you wish to evaluate. Accordingly, each
+phase requires different assets for the validation. See more about
+typical usage scenarios and the built-in suites in the
+`docs <https://docs.deepchecks.com/?utm_source=pypi.org&utm_medium=referral&utm_campaign=readme>`__.
+
+Installation
+------------
+
+Using pip
+~~~~~~~~~
+
+.. code:: bash
+
+    pip install deepchecks #--upgrade --user
+
+Using conda
+~~~~~~~~~~~
+
+.. code:: bash
+
+    conda install -c deepchecks deepchecks
+
+.. |build| image:: https://github.com/deepchecks/deepchecks/actions/workflows/build.yml/badge.svg
+.. |pkgVersion| image:: https://img.shields.io/pypi/v/deepchecks
+.. |pyVersions| image:: https://img.shields.io/pypi/pyversions/deepchecks
+.. |Maintainability| image:: https://api.codeclimate.com/v1/badges/970b11794144139975fa/maintainability
+   :target: https://codeclimate.com/github/deepchecks/deepchecks/maintainability
+.. |Coverage Status| image:: https://coveralls.io/repos/github/deepchecks/deepchecks/badge.svg?branch=main
+   :target: https://coveralls.io/github/deepchecks/deepchecks?branch=main
+
+

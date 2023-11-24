@@ -1,30 +1,36 @@
 import pytest
-from functions import load_Empdata_df, split_dataframe, train_linear_model, data_integrity_check
+import os
+import re
+from functions import load_Empdata_df, model_evaluation_suite, split_dataframe, train_linear_model, data_integrity_check, train_test_dataset_validation
 
-# Test load_Empdata_df function
-def test_load_Empdata_df():
+# Test presenec of Training Empdata_df function
+def test_load_Train_Empdata_df():
     df = load_Empdata_df('Train-employee-salary.csv')
     assert df is not None
     assert 'salary' in df
     assert len(df) > 0
     # Add more specific assertions as needed
 
+# Test presenec of Test Empdata_df function
+def test_load_Train_Empdata_df():
+    df = load_Empdata_df('Test-employee-salary.csv')
+    assert df is not None
+    #assert 'salary' not in df
+    assert len(df) > 0
+
+
 # Test split_dataframe function
 def test_split_dataframe():
-    X_train, X_test, y_train, y_test = split_dataframe()
-    assert X_train is not None
-    assert y_train is not None
-    assert X_test is not None
-    assert y_test is not None
-    assert len(X_train) > 0
-    assert len(y_train) > 0
-    assert len(X_test) > 0
-    assert len(y_test) > 0
+    train_df, test_df = split_dataframe()
+    assert train_df is not None
+    assert test_df is not None
+    assert len(train_df) > 0
+    assert len(test_df) > 0
     # Add more specific assertions as needed
 
 # Test train_linear_model function
 def test_train_linear_model():
-    X_train, X_test, y_train, y_test = split_dataframe()
+    test_df, test_df = split_dataframe()
     result = train_linear_model()
     assert 'Train-score' in result
     assert 'Test-score' in result
@@ -43,17 +49,24 @@ def test_data_integrity_check():
 
 # Test if the saved model file exists
 def test_saved_model_file_exists():
-    import os
     assert os.path.isfile('trained_SalaryPrediction_linear_model.joblib')
 
 # Test if the HTML report for data integrity check exists
+# Test if the HTML report for data integrity check exists
 def test_data_integrity_report_exists():
     import os
-    assert os.path.isfile('data_integrity_report.html')
+    assert os.path.isfile('Train_data_integrity_report.html')
 
-# Test if data integrity check reports any issues
-def test_data_integrity_report_issues():
+# To validate two data subsets
+# Comparing distributions across different train-test splits (e.g. before training a model or when splitting data for cross-validation)
+# Comparing a new data batch to previous data batche
+def test_train_test_dataset_validation():
     # Implement assertions to check for specific issues reported in the data integrity report
-    pass
+    train_test_dataset_validation()
+
+
+def test_model_evaluation_suite():
+    # Implement assertions to check for specific issues reported in the data integrity report
+    model_evaluation_suite()
 
 # You can add more custom test cases as needed
