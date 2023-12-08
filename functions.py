@@ -18,13 +18,13 @@ def load_Empdata_df(filename):
     return df
 
 
-# Split Dataframe
+# Split Dataframe into train and test dataframe with columns id removed 
 def split_dataframe():
     df = load_Empdata_df(filename='Train-employee-salary.csv')
     # Mapping categorical values to numeric values
     blood_type_mapping = {'A': 0, 'B': 1, 'AB': 2, 'O': 3}
     df['groups'] = df['groups'].map(blood_type_mapping)
-    X = df.drop(columns='salary', axis=1)
+    X = df.drop(columns=['id','salary'], axis=1)  # removed ID and Salary columns
     y = df['salary']
     # Split the Test data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -34,9 +34,9 @@ def split_dataframe():
     df_test = pd.concat([X_test, y_test], axis=1)
     return df_train, df_test
 
-#Converting Full Dataframe to full Dataset for Data integrity check via Deepcheck
+#Converting Full Dataframe to full Dataset for Data integrity check used in Deepchecks library
 def load_dataset():
-    df_train, df_test = split_dataframe()
+    df_train, df_test = split_dataframe()  
     # Mapping categorical values to numeric values
 
     # Create Dataset objects from dataframe for deepcheck usage
@@ -49,7 +49,6 @@ def load_dataset():
 def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
     try:
         df_train, df_test = split_dataframe()
-
         # Check data types and valid test_frac value
         assert isinstance(df_train, pd.DataFrame), "X_train must be a DataFrame"
         assert isinstance(df_test, pd.DataFrame), "X_train must be a DataFrame"
@@ -62,6 +61,8 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         X_test = df_test.drop('salary',axis=1)
         y_train = df_train['salary']
         y_test = df_test['salary']
+
+        # Linear Regression Model creation
         model = LinearRegression()
 
         # Fit the model with training data
@@ -70,6 +71,56 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         # Save the trained model to a file
         fname = filename + '.joblib'
         dump(model, fname)
+        return model
+   
+    except AssertionError as msg:
+        print(msg)
+        return msg
+    
+
+# Assuming 'model' is your trained regression model
+
+def evaluate_salary_prediction(input_features, actual_salary):
+    try:
+        model = train_linear_model()
+        # Prepare input features for prediction
+        input_data = [input_features]  # Assuming input_features is already a list
+
+        # Make prediction
+        predicted_salary = model.predict(input_data)[0]
+
+        # Calculate accuracy
+        accuracy = (1 - abs(predicted_salary - actual_salary) / actual_salary) * 100
+        return predicted_salary, accuracy
+    except AssertionError as msg:
+        print(msg)
+        return msg
+
+# Function Overloading , f the test file doesn't have the salary values, and  we need predict the salary for each row using your model
+def salary_prediction(input_features):
+    try:
+        model = train_linear_model()
+        # Prepare input features for prediction
+        input_data = [input_features]  # Assuming input_features is already a list
+        # Make prediction
+        predicted_salary = model.predict(input_data)[0]        
+        return predicted_salary
+    except AssertionError as msg:
+        print(msg)
+        return msg
+
+
+# Function to calculate and return R-squared scores
+def Rsquared_linear_model():
+    try:
+        df_train, df_test = split_dataframe()
+        model = train_linear_model()
+        
+        # Splitting dataframe into X and y
+        X_train = df_train.drop('salary', axis=1)
+        X_test = df_test.drop('salary', axis=1)
+        y_train = df_train['salary']
+        y_test = df_test['salary']
 
         # Compute R-squared scores for training and test data
         r2_train = model.score(X_train, y_train)
@@ -79,8 +130,8 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         print("Test R-squared:", r2_test)
 
         # Return scores in a dictionary
-        return {'Train-score': r2_train, 'Test-score': r2_test}
-
+        score = {'Train-score': r2_train, 'Test-score': r2_test}
+        return score
     except AssertionError as msg:
         print(msg)
         return msg
