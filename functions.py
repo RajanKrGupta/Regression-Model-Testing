@@ -45,15 +45,15 @@ def load_dataset():
     return train_ds, test_ds
 
 
-# Training Linear Model
+# Training Linear Regression Model
 def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
     try:
         df_train, df_test = split_dataframe()
         # Check data types and valid test_frac value
-        assert isinstance(df_train, pd.DataFrame), "X_train must be a DataFrame"
-        assert isinstance(df_test, pd.DataFrame), "X_train must be a DataFrame"
-        assert isinstance(df_train['salary'], pd.Series), "y_train must be a Series"
-        assert isinstance(df_test['salary'], pd.Series), "y_train must be a Series"
+        assert isinstance(df_train, pd.DataFrame), "df_train must be a DataFrame"
+        assert isinstance(df_test, pd.DataFrame), "df_test must be a DataFrame"
+        assert isinstance(df_train['salary'], pd.Series), "must be a Series"
+        assert isinstance(df_test['salary'], pd.Series), "must be a Series"
         assert isinstance(filename, str), "Filename must be a string"
 
         # Spliting dataframe into X and y
@@ -78,11 +78,11 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         return msg
     
 
-# Assuming 'model' is your trained regression model
+# When we have actual salary and we want to check the acuracy of preiction 
 
 def evaluate_salary_prediction(input_features, actual_salary):
     try:
-        model = train_linear_model()
+        model = train_linear_model()  #calling model function 
         # Prepare input features for prediction
         input_data = [input_features]  # Assuming input_features is already a list
 
@@ -96,7 +96,7 @@ def evaluate_salary_prediction(input_features, actual_salary):
         print(msg)
         return msg
 
-# Function Overloading , f the test file doesn't have the salary values, and  we need predict the salary for each row using your model
+# Function Overloading , the test file doesn't have the salary values, and  we need predict the salary for each row using your model
 def salary_prediction(input_features):
     try:
         model = train_linear_model()

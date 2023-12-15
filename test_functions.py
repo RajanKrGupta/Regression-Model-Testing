@@ -13,7 +13,7 @@ def test_load_Train_Empdata_df():
     # Add more specific assertions as needed
 
 # Test presence of Test Empdata_df function
-def test_load_Train_Empdata_df():
+def test_load_Test_Empdata_df():
     df = functions.load_Empdata_df('Test-employee-salary.csv')
     assert df is not None
     assert 'salary' in df.columns
