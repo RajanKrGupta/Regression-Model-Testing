@@ -78,7 +78,7 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         return msg
     
 
-# When we have actual salary and we want to check the acuracy of preiction 
+# When we have actual salary and we want to check the acuracy of prediction 
 
 def evaluate_salary_prediction(input_features, actual_salary):
     try:
