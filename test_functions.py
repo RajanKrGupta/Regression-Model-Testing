@@ -42,7 +42,7 @@ def test_Rsquared_scores_train_test():
     # Add more specific assertions as needed
 
 # Test data_integrity_check function
-@pytest.mark.skip(reason="Working Time Consuming")
+#@pytest.mark.skip(reason="Working Time Consuming")
 def test_data_integrity_check():
     functions.data_integrity_check()
     # You can add assertions for the result of data integrity check, e.g., check for specific issues
@@ -52,10 +52,9 @@ def test_data_integrity_check():
 # Test if the saved model file exists
 def test_saved_model_file_exists():
     assert os.path.isfile('trained_SalaryPrediction_linear_model.joblib')
-
+ 
 # Test if the HTML report for data integrity check exists
-# Test if the HTML report for data integrity check exists
-@pytest.mark.skip(reason="Working Time Consuming")
+#@pytest.mark.skip(reason="Working Time Consuming")
 @pytest.mark.report
 def test_data_integrity_report_exists():
     import os
@@ -65,12 +64,12 @@ def test_data_integrity_report_exists():
 # Comparing distributions across different train-test splits (e.g. before training a model or when splitting data for cross-validation)
 # Comparing a new data batch to previous data batche
 
-@pytest.mark.skip(reason="Working Time Consuming")
+#@pytest.mark.skip(reason="Working Time Consuming")
 def test_train_test_dataset_validation():
     # Implement assertions to check for specific issues reported in the data integrity report
     functions.train_test_dataset_validation()
 
-@pytest.mark.skip(reason="Working Time Consuming")
+#@pytest.mark.skip(reason="Working Time Consuming")
 def test_model_evaluation_suite():
     # Implement assertions to check for specific issues reported in the data integrity report
     functions.model_evaluation_suite()
@@ -79,7 +78,7 @@ def test_model_evaluation_suite():
 
 @pytest.mark.prediction
 def test_positive_salary_prediction(input_features=[0, 36, 5, 5], actual_salary = 2297 ):
-    predicted_salary, accuracy = functions.evaluate_salary_prediction(input_features, actual_salary)
+    predicted_salary, accuracy = functions.evaluate_predicted_accuracy(input_features, actual_salary)
     print(f"Actual Salary: {actual_salary}")
     print(f"Predicted Salary: {predicted_salary}")
     print(f"Accuracy: {accuracy:.2f}%")
@@ -98,8 +97,8 @@ def test_checking_predicted_salary_from_actual():
         actual_salary = row['salary']
 
         # Perform salary prediction for each row
-        predicted_salary, accuracy = functions.evaluate_salary_prediction(input_features, actual_salary)
-
+        predicted_salary, accuracy = functions.evaluate_predicted_accuracy(input_features, actual_salary)
+      
         # Add assertions based on your requirements
         # assert accuracy > 0  # Add your specific assertions here
 

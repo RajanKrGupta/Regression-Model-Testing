@@ -1,6 +1,6 @@
-from deepchecks.tabular import Dataset
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from deepchecks.tabular import Dataset
 from deepchecks.tabular.suites import data_integrity
 from deepchecks.tabular.suites import train_test_validation
 from deepchecks.tabular.suites import model_evaluation
@@ -9,6 +9,7 @@ import pandas as pd
 import os
 import re
 
+filename= 'Train-employee-salary.csv'
 # Load sklearn dataframe
 def load_Empdata_df(filename):
     dataset_dir = 'Dataset'
@@ -20,7 +21,7 @@ def load_Empdata_df(filename):
 
 # Split Dataframe into train and test dataframe with columns id removed 
 def split_dataframe():
-    df = load_Empdata_df(filename='Train-employee-salary.csv')
+    df = load_Empdata_df(filename)
     # Mapping categorical values to numeric values
     blood_type_mapping = {'A': 0, 'B': 1, 'AB': 2, 'O': 3}
     df['groups'] = df['groups'].map(blood_type_mapping)
@@ -37,7 +38,6 @@ def split_dataframe():
 #Converting Full Dataframe to full Dataset for Data integrity check used in Deepchecks library
 def load_dataset():
     df_train, df_test = split_dataframe()  
-    # Mapping categorical values to numeric values
 
     # Create Dataset objects from dataframe for deepcheck usage
     train_ds = Dataset(df_train.iloc[:,:-1], label=df_train['salary'], cat_features=['groups','healthy_eating','active_lifestyle'])
@@ -80,7 +80,7 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
 
 # When we have actual salary and we want to check the acuracy of prediction 
 
-def evaluate_salary_prediction(input_features, actual_salary):
+def evaluate_predicted_accuracy(input_features, actual_salary):
     try:
         model = train_linear_model()  #calling model function 
         # Prepare input features for prediction
@@ -95,8 +95,9 @@ def evaluate_salary_prediction(input_features, actual_salary):
     except AssertionError as msg:
         print(msg)
         return msg
+    
 
-# Function Overloading , the test file doesn't have the salary values, and  we need predict the salary for each row using your model
+    # Function Overloading , the test file doesn't have the salary values, and  we need predict the salary for each row using your model
 def salary_prediction(input_features):
     try:
         model = train_linear_model()
@@ -110,10 +111,11 @@ def salary_prediction(input_features):
         return msg
 
 
-# Function to calculate and return R-squared scores
+# Function to calculate and return R-squared score
 def Rsquared_linear_model():
     try:
-        df_train, df_test = split_dataframe()
+        # split_dataframe gives the train and test dataframe
+        df_train, df_test = split_dataframe() 
         model = train_linear_model()
         
         # Splitting dataframe into X and y
@@ -149,7 +151,7 @@ def data_integrity_check():
     suite_result2.save_as_html("Test_data_integrity_report.html")
  
 
-# Deepcheck to verify the train and test dataset - here we are using Dataframe however Deepchekc works well with Dataset for train_test_validation
+# Deepcheck to verify the train and test dataset - Deepchekc works with Dataset for train_test_validation
 def train_test_dataset_validation():
     validation_suite = train_test_validation()
     train_ds,test_ds = load_dataset()
