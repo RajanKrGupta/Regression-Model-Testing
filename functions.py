@@ -9,7 +9,9 @@ import pandas as pd
 import os
 import re
 
-filename= 'Train-employee-salary.csv'
+filename = 'Train-employee-salary.csv'
+
+
 # Load sklearn dataframe
 def load_Empdata_df(filename):
     dataset_dir = 'Dataset'
@@ -25,7 +27,7 @@ def split_dataframe():
     # Mapping categorical values to numeric values
     blood_type_mapping = {'A': 0, 'B': 1, 'AB': 2, 'O': 3}
     df['groups'] = df['groups'].map(blood_type_mapping)
-    X = df.drop(columns=['id','salary'], axis=1)  # removed ID and Salary columns
+    X = df.drop(columns=['id', 'salary'], axis=1)  # removed ID and Salary columns
     y = df['salary']
     # Split the Test data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -35,13 +37,16 @@ def split_dataframe():
     df_test = pd.concat([X_test, y_test], axis=1)
     return df_train, df_test
 
-#Converting Full Dataframe to full Dataset for Data integrity check used in Deepchecks library
+
+# Converting Full Dataframe to full Dataset for Deepchecks library usage
 def load_dataset():
-    df_train, df_test = split_dataframe()  
+    df_train, df_test = split_dataframe()
 
     # Create Dataset objects from dataframe for deepcheck usage
-    train_ds = Dataset(df_train.iloc[:,:-1], label=df_train['salary'], cat_features=['groups','healthy_eating','active_lifestyle'])
-    test_ds = Dataset(df_test.iloc[:,:-1], label=df_test['salary'], cat_features=['groups','healthy_eating','active_lifestyle'])
+    train_ds = Dataset(df_train.iloc[:, :-1], label=df_train['salary'],
+                       cat_features=['groups', 'healthy_eating', 'active_lifestyle'])
+    test_ds = Dataset(df_test.iloc[:, :-1], label=df_test['salary'],
+                      cat_features=['groups', 'healthy_eating', 'active_lifestyle'])
     return train_ds, test_ds
 
 
@@ -57,8 +62,8 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         assert isinstance(filename, str), "Filename must be a string"
 
         # Spliting dataframe into X and y
-        X_train = df_train.drop('salary',axis=1)
-        X_test = df_test.drop('salary',axis=1)
+        X_train = df_train.drop('salary', axis=1)
+        X_test = df_test.drop('salary', axis=1)
         y_train = df_train['salary']
         y_test = df_test['salary']
 
@@ -72,17 +77,17 @@ def train_linear_model(filename='trained_SalaryPrediction_linear_model'):
         fname = filename + '.joblib'
         dump(model, fname)
         return model
-   
+
     except AssertionError as msg:
         print(msg)
         return msg
-    
+
 
 # When we have actual salary and we want to check the acuracy of prediction 
 
 def evaluate_predicted_accuracy(input_features, actual_salary):
     try:
-        model = train_linear_model()  #calling model function 
+        model = train_linear_model()  # calling model function
         # Prepare input features for prediction
         input_data = [input_features]  # Assuming input_features is already a list
 
@@ -95,16 +100,17 @@ def evaluate_predicted_accuracy(input_features, actual_salary):
     except AssertionError as msg:
         print(msg)
         return msg
-    
 
-    # Function Overloading , the test file doesn't have the salary values, and  we need predict the salary for each row using your model
+    # The test file doesn't have the salary values, and  we need predict the salary for each row using your model
+
+
 def salary_prediction(input_features):
     try:
         model = train_linear_model()
         # Prepare input features for prediction
         input_data = [input_features]  # Assuming input_features is already a list
         # Make prediction
-        predicted_salary = model.predict(input_data)[0]        
+        predicted_salary = model.predict(input_data)[0]
         return predicted_salary
     except AssertionError as msg:
         print(msg)
@@ -115,9 +121,9 @@ def salary_prediction(input_features):
 def Rsquared_linear_model():
     try:
         # split_dataframe gives the train and test dataframe
-        df_train, df_test = split_dataframe() 
+        df_train, df_test = split_dataframe()
         model = train_linear_model()
-        
+
         # Splitting dataframe into X and y
         X_train = df_train.drop('salary', axis=1)
         X_test = df_test.drop('salary', axis=1)
@@ -138,9 +144,10 @@ def Rsquared_linear_model():
         print(msg)
         return msg
 
+
 # Deepcheck Data integrity check and saving the report into HTML
 def data_integrity_check():
-    train_ds,test_ds = load_dataset()
+    train_ds, test_ds = load_dataset()
     # Run Suite:
     integ_suite = data_integrity()
     suite_result1 = integ_suite.run(train_ds)
@@ -149,12 +156,12 @@ def data_integrity_check():
     # Save the result report as an HTML file
     suite_result1.save_as_html("Train_data_integrity_report.html")
     suite_result2.save_as_html("Test_data_integrity_report.html")
- 
 
-# Deepcheck to verify the train and test dataset - Deepchekc works with Dataset for train_test_validation
+
+# Verification of Train and Test dataset
 def train_test_dataset_validation():
     validation_suite = train_test_validation()
-    train_ds,test_ds = load_dataset()
+    train_ds, test_ds = load_dataset()
     suite_result = validation_suite.run(train_ds, test_ds)
     # Note: the result can be saved as html using suite_result.save_as_html()
     # or exported to json using suite_result.to_json()
@@ -167,7 +174,7 @@ def model_evaluation_suite():
     lg = load("trained_SalaryPrediction_linear_model.joblib")
 
     evaluation_suite = model_evaluation()
-    suite_result = evaluation_suite.run(train_ds, test_ds, lg )
+    suite_result = evaluation_suite.run(train_ds, test_ds, lg)
     # Note: the result can be saved as html using suite_result.save_as_html()
     # or exported to json using suite_result.to_json()
     # or to show the result suite_result.show()
