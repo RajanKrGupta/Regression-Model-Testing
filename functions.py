@@ -31,14 +31,13 @@ def split_dataframe():
     y = df['salary']
     # Split the Test data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
     # Create two DataFrames from the split data
-    df_train = pd.concat([X_train, y_train], axis=1)
+    df_train = pd.concat([X_train, y_train], axis=1)  #axis=1 (Horizontal Concatenation)-->Concatenates DataFrames along columns
     df_test = pd.concat([X_test, y_test], axis=1)
     return df_train, df_test
 
 
-# Converting Full Dataframe to full Dataset for Deepchecks library usage
+# Converting Full Dataframe to Deepchecks -Dataset for its library usage
 def load_dataset():
     df_train, df_test = split_dataframe()
 
@@ -101,9 +100,8 @@ def evaluate_predicted_accuracy(input_features, actual_salary):
         print(msg)
         return msg
 
-    # The test file doesn't have the salary values, and  we need predict the salary for each row using your model
-
-
+  
+# The test file doesn't have the salary values, and  we need predict the salary for each row using your model
 def salary_prediction(input_features):
     try:
         model = train_linear_model()
