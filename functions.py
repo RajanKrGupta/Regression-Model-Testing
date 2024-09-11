@@ -169,10 +169,10 @@ def train_test_dataset_validation():
 def model_evaluation_suite():
     train_ds, test_ds = load_dataset()
     # Load the saved model from the joblib file
-    lg = load("trained_SalaryPrediction_linear_model.joblib")
+    model = load("trained_SalaryPrediction_linear_model.joblib")
 
     evaluation_suite = model_evaluation()
-    suite_result = evaluation_suite.run(train_ds, test_ds, lg)
+    suite_result = evaluation_suite.run(train_ds, test_ds, model)
     # Note: the result can be saved as html using suite_result.save_as_html()
     # or exported to json using suite_result.to_json()
     # or to show the result suite_result.show()
